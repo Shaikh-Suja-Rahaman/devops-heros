@@ -1,8 +1,7 @@
 # Session 9: Kubernetes Fundamentals & Cluster Architecture
-**Author:** Suja Rahaman
-**Course:** SST DevOps & Cloud [SWE]
-**Session:** 09 - Kubernetes Fundamentals
-**Repository:** devops-heros / session9-k8s
+
+**Name:** Shaikh Suja Rahaman
+**Enrollment Number:** 24bcs10038
 
 ---
 

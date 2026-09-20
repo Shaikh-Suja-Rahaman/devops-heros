@@ -1,9 +1,7 @@
 # Session 11: Kubernetes Services
 
-**Author:** Suja Rahaman
-**Course:** SST DevOps & Cloud [SWE]
-**Session:** 11 - Kubernetes Services
-**Repository:** devops-heros / session-11-kubernetes-services
+**Name:** Shaikh Suja Rahaman
+**Enrollment Number:** 24bcs10038
 
 ---
 

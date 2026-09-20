@@ -1,8 +1,7 @@
 # Session 10: Kubernetes Core Objects & Deployments
-**Author:** Suja Rahaman
-**Course:** SST DevOps & Cloud [SWE]
-**Session:** 10 - Kubernetes Core Objects
-**Repository:** devops-heros / session10-k8s-core-objects
+
+**Name:** Shaikh Suja Rahaman
+**Enrollment Number:** 24bcs10038
 
 ---
 

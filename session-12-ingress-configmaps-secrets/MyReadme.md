@@ -1,9 +1,7 @@
 # Session 12: Ingress, ConfigMaps, and Secrets
 
-**Author:** Suja Rahaman
-**Course:** SST DevOps & Cloud [SWE]
-**Session:** 12 - Kubernetes Ingress & Config Management
-**Repository:** devops-heros / session-12-ingress-configmaps-secrets
+**Name:** Shaikh Suja Rahaman
+**Enrollment Number:** 24bcs10038
 
 ---
 
