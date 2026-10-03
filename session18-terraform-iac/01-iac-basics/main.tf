@@ -12,12 +12,11 @@ terraform {
 provider "aws" {
   region = "ap-south-1"
 }
-
 resource "aws_s3_bucket" "iac_demo" {
-  bucket_prefix = "session18-iac-"
+  bucket_prefix = "suja-"
 
   tags = {
-    Name        = "Session 18 IaC Demo"
+    Name        = "Suja Terraform Demo"
     Environment = "dev"
   }
 }
