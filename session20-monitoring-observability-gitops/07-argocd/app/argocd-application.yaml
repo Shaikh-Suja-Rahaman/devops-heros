@@ -8,7 +8,7 @@ spec:
   project: default
 
   source:
-    repoURL: https://github.com/Nency-Ravaliya/gitops-demo.git
+    repoURL: https://github.com/Shaikh-Suja-Rahaman/devops-heros.git
     targetRevision: main
     path: app
 
