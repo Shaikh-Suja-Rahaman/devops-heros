@@ -2,20 +2,35 @@
 
 ## Supported Versions
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
-
 | Version | Supported          |
 | ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+| 2.0.x   | :white_check_mark: |
+| < 2.0   | :x:                |
+
+## Security Controls in the Pipeline
+
+Every push and pull request to `main` runs `.github/workflows/devsecops.yml`.
+An image is only pushed to GHCR and deployed when **all** checks pass.
+
+| Control | Tool | Configuration | Gate |
+|---------|------|---------------|------|
+| SAST | GitHub CodeQL (`python`) | default query suite | alerts in the Security tab |
+| SAST | Bandit | `bandit.yaml` | fails on MEDIUM / HIGH |
+| SCA | pip-audit | `requirements.txt`, `requirements-dev.txt` | fails on any known vulnerability |
+| Secret scanning | Gitleaks | `.gitleaks.toml` (default rules) | fails on any leak |
+| Image scanning | Trivy | `trivy.yaml`, `.trivyignore` | fails on fixable HIGH / CRITICAL |
+| Security gate | `security-gate` job | `if: always()` + `needs` results | blocks push and deploy |
+
+Runtime hardening: non-root container user (`uid 10001`), Flask debug mode off
+by default, `allowPrivilegeEscalation: false`, resource limits and health probes
+in `k8s/deployment.yaml`.
 
 ## Reporting a Vulnerability
 
-Use this section to tell people how to report a vulnerability.
+Please do **not** open a public issue for security problems.
+Use GitHub's **Security → Report a vulnerability** (private advisory) on this
+repository. You can expect an acknowledgement within 3 working days and a fix or
+mitigation plan within 14 days for confirmed HIGH / CRITICAL issues.
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+If a credential is ever committed by mistake, treat it as compromised:
+revoke / rotate it first, then remove it from the code and history.

@@ -10,7 +10,9 @@ spec:
   source:
     repoURL: https://github.com/Shaikh-Suja-Rahaman/devops-heros.git
     targetRevision: main
-    path: app
+    path: session20-monitoring-observability-gitops/07-argocd/app
+    directory:
+      exclude: argocd-application.yaml   # this file is applied manually, not synced
 
   destination:
     server: https://kubernetes.default.svc

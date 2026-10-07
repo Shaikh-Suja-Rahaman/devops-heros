@@ -21,6 +21,14 @@ VPC: 10.20.0.0/16
    +-- Route Table Association
    |
    +-- Web Security Group
+   |
+   +-- EC2 web server (Amazon Linux 2023 + httpd)
+
+S3 bucket (regional, outside the VPC)
+   |
+   +-- Public access block
+   |
+   +-- site/index.html object
 ```
 
 ---
@@ -142,10 +150,14 @@ terraform output
 Expected shape:
 
 ```text
+instance_id = "i-..."
+instance_public_ip = "x.x.x.x"
+s3_bucket_name = "session19-mini-assets-..."
 security_group_id = "sg-..."
 subnet_id = "subnet-..."
 vpc_cidr = "10.20.0.0/16"
 vpc_id = "vpc-..."
+website_url = "http://x.x.x.x"
 ```
 
 Show resources:
@@ -157,9 +169,14 @@ terraform state list
 Expected:
 
 ```text
+data.aws_ami.al2023
+aws_instance.web
 aws_internet_gateway.main
 aws_route_table.public
 aws_route_table_association.public
+aws_s3_bucket.assets
+aws_s3_bucket_public_access_block.assets
+aws_s3_object.index
 aws_security_group.web
 aws_subnet.public
 aws_vpc.main
@@ -219,14 +236,16 @@ yes
 Expected:
 
 ```text
-Destroy complete! Resources: 6 destroyed.
+Destroy complete! Resources: 10 destroyed.
 ```
 
 ---
 
-# Optional Extension - EC2
+# Extension - EC2 and S3 (implemented)
 
-After understanding the network, add an EC2 instance.
+`main.tf` now also creates an EC2 web server (`aws_instance.web`) in the public
+subnet and an S3 bucket (`aws_s3_bucket.assets`). Check the site with
+`curl $(terraform output -raw website_url)`.
 
 The instance should use:
 

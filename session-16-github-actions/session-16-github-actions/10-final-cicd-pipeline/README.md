@@ -10,15 +10,21 @@ flowchart TD
     C --> E[SECURITY]
     D --> F[BUILD]
     F --> G[ARTIFACT]
+    E --> H[DOCKER IMAGE]
+    F --> H
+    H -->|push| I[Docker Hub]
+    I --> J[DEPLOY TO STAGING]
 ```
 
 ---
 
 ## 2. Jobs
-The workflow contains three jobs:
-1. `test`
-2. `build`
-3. `security-check`
+The workflow (`Final CI/CD Pipeline`) contains five jobs:
+1. `test` (CI)
+2. `build` (CI)
+3. `security-check` (CI)
+4. `docker` - build & push the Docker image (CD, only on push to `main`)
+5. `deploy` - pull the image and smoke-test it in the `staging` environment (CD)
 
 ---
 
@@ -73,6 +79,22 @@ The workflow uploads it as:
 
 ---
 
+## 7.1 Docker Image & Deployment (CD)
+The application also ships a small HTTP API (`app/server.py`, standard library only) and a `Dockerfile`.
+
+```bash
+docker build -t session16-calculator:local --build-arg APP_VERSION=local .
+docker run -d --name calculator -p 8080:8080 session16-calculator:local
+curl -s localhost:8080/health
+curl -s "localhost:8080/calculate?op=add&a=10&b=5"
+```
+
+The `docker` job logs in to Docker Hub with the repository secrets `DOCKERHUB_USERNAME` and
+`DOCKERHUB_TOKEN`, then pushes `<user>/session16-calculator:sha-<commit>` and `:latest`.
+The `deploy` job pulls that exact tag, starts the container and calls `/health` and `/calculate`.
+
+---
+
 ## 8. Run Locally
 
 **Install dependencies:**
@@ -114,15 +136,19 @@ git push -u origin main
 GitHub Actions should show:
 
 ```text
-Final CI Pipeline
+Final CI/CD Pipeline
 │
 ├── ✓ Test Application
 │
 ├── ✓ Security Check
 │
-└── ✓ Build Application
-      │
-      └── ✓ Upload build artifact
+├── ✓ Build Application
+│     │
+│     └── ✓ Upload build artifact
+│
+├── ✓ Build & Push Docker Image
+│
+└── ✓ Deploy to Staging
 ```
 
 ---

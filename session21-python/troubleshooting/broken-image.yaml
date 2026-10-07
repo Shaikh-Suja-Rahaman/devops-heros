@@ -1,3 +1,4 @@
+# Issue 1 - ImagePullBackOff: the image tag does not exist in the registry.
 apiVersion: apps/v1
 kind: Deployment
 metadata: {name: taskboard-broken-image, namespace: taskboard}
@@ -7,4 +8,9 @@ spec:
   template:
     metadata: {labels: {app: broken-image}}
     spec:
-      containers: [{name: backend, image: ghcr.io/example/taskboard-backend:does-not-exist}]
+      containers:
+      - name: backend
+        image: ghcr.io/example/taskboard-backend:does-not-exist
+        env:
+        - name: DATABASE_URL
+          valueFrom: {secretKeyRef: {name: taskboard-postgres, key: database-url}}

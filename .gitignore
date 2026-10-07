@@ -1,2 +1,4 @@
 ./node_modules/
 .zip
+tools
+.DS_Store
